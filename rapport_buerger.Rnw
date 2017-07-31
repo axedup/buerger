@@ -1,0 +1,315 @@
+\documentclass[a4paper,11pt] {article}
+\hfuzz=100pt 
+%\documentclass[a4paper,article,oneside,10pt]{memoir}
+\usepackage[francais]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[lucidasmallscale, nofontinfo]{lucimatx}
+%\usepackage{times}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{here}
+\usepackage{ctable}
+\usepackage{pdflscape}
+\usepackage{pst-tree}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{dcolumn}
+\usepackage{Sweave}
+\usepackage{lscape}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{caption}
+%\usepackage[pdftex,bookmarks=true,bookmarksnumbeampud=true,
+%            hypertexnames=false,bampuaklinks=true,
+%            linkbordercolor={0 0 1}]{hyperampuf}
+
+%--------------
+
+%
+%\usepackage{fancyhdr}
+%\pagestyle{empty}
+%\pagestyle{fancy}
+%\fancyhf{}
+%%\ampunewcommand{\chaptermark}[1]{\markboth{\bsc{\chaptername~\thechapter{} :} #1}{}}
+%%\ampunewcommand{\sectionmark}[1]{\markright{\thesection{} #1}}
+%%\lfoot{Confidential, for the exclusive use of DMC members}
+%%\ampunewcommand{\footrulewidth}{0.4pt}
+%%\ampunewcommand{\headrulewidth}{0.4pt}
+%%\ampunewcommand{\thepage}{\arabic{\page}}
+%\setcounter{tocdepth}{5} % Dans la table des matieampus
+%\setcounter{secnumdepth}{5} % Avec un numero.
+%%\mainmatter
+%\pagenumbering{arabic}\setcounter{page}{1}
+%\rhead{\thepage}
+%\lhead{\leftmark}
+%%\ampunewcommand{\thesection}{\Roman{section}}
+%%\ampunewcommand{\thesection}{\Roman{section}}
+%%\ampunewcommand{\thesection}{\Roman{section}}
+%%\ampunewcommand{\thesubsection}{\thesection .\Alph{subsection}}
+%
+%--------------
+\begin{document}
+\title{Rapport  d'analyses statistiques}
+\author{Axelle Dupont, Matthieu Resche-Rigon, sbim, Hôpital Saint Louis, Paris}
+\date\today
+
+%------------------------------------------------------------
+
+
+
+
+
+
+%-------------------------------------------------------------
+
+
+
+
+
+\SweaveOpts{concordance=TRUE}
+
+
+\setkeys{Gin}{width=1\textwidth}
+\maketitle
+
+%\pagestyle{protoc}
+\tableofcontents
+\pagebreak[4]
+\listoftables
+\listoffigures
+%\SweaveOpts{eval=TRUE,echo=false,fig=TRUE}
+
+
+\pagebreak[4]
+%\chapter{Objectif}
+
+\section{Objectifs}
+
+
+
+\section{Methodes}
+
+
+
+\pagebreak[4]
+\section{Résultats}
+
+
+
+<<label=tab:pratiq ,echo=FALSE,results=hide>>=
+
+source("C:/Users/adupont/Documents/berger/BibliR.R")
+source("C:/Users/adupont/Documents/berger/init_berger.R")
+source("C:/Users/adupont/Documents/berger/import_berger.R")
+source("C:/Users/adupont/Documents/berger/descri_berger.R")
+source("C:/Users/adupont/Documents/berger/survie_test_univarie_berger.R")
+# source("C:/Users/adupont/Documents/projetstlouis/scripts/import.R")
+# source("C:/Users/adupont/Documents/projetstlouis/scripts/descri.R")
+# source("C:/Users/adupont/Documents/projetstlouis/scripts/survie.R")
+#source("C:/Users/adupont/Documents/projetstlouis/scripts/survie_test.R")
+
+@
+
+
+
+\subsection{Résultats descriptifs}
+ \Sexpr{nrow(berger)} patients ont été inclus.
+ 
+<<label=tab:condi ,echo=FALSE,results=tex>>=
+print(xtable (patientb,
+caption= "Caractéristiques des patients ",
+label="tab:condi",
+table.placement="htp",caption.placement="top"),
+tabular.environment="longtable",
+floating=F,
+include.rownames=F,
+ sanitize.text.function = function(x){x}  )
+@
+
+<<label=tab:avtg ,echo=FALSE,results=tex>>=
+print(xtable (caracb,
+caption= "Caractéristiques de la maladie",
+label="tab:avtg",
+table.placement="htp",caption.placement="top"),
+tabular.environment="longtable",
+floating=F,
+include.rownames=F,
+ sanitize.text.function = function(x){x}  )
+@
+\pagebreak
+
+<<label=tab:g ,echo=FALSE,results=tex>>=
+print(xtable (ttb,
+caption= "Traitements",
+label="tab:g",
+table.placement="htp",caption.placement="top"),
+tabular.environment="longtable",
+floating=F,
+include.rownames=F,
+ sanitize.text.function = function(x){x}  )
+@
+
+<<label=tab:gb ,echo=FALSE,results=tex>>=
+print(xtable (vascb,
+caption= "Traitements",
+label="tab:gb",
+table.placement="htp",caption.placement="top"),
+tabular.environment="longtable",
+floating=F,
+include.rownames=F,
+ sanitize.text.function = function(x){x}  )
+@
+
+
+
+<<label=tab:gu ,echo=FALSE,results=tex>>=
+print(xtable (outb,
+caption= "Evenements",
+label="tab:gu",
+table.placement="htp",caption.placement="top"),
+tabular.environment="longtable",
+floating=F,
+include.rownames=F,
+ sanitize.text.function = function(x){x}  )
+@
+\pagebreak
+\subsection{Survie}
+
+\newgeometry{bmargin=1cm}
+\begin{landscape}
+\begin{longtable}{llllll}
+\hline
+Survie  & Survie à 1 an (95\%CI) & Survie à 3 ans (95\%CI) & Survie à 5 ans (95\%CI) & Survie à 10 ans (95\%CI) & Survie à 20 ans (95\%CI) \\ 
+\hline
+Survie   & \Sexpr{round(re$surv[which.min((re$time-1)<0)-1],2)} ( \Sexpr{round(re$lower[which.min((re$time-1)<0)],2)} - \Sexpr{round(re$upper[which.min((re$time-1)<0)-1],2)})
+& \Sexpr{round(re$surv[which.min((re$time-3)<0)-1],2)} ( \Sexpr{round(re$lower[which.min((re$time-3)<0)],2)} - \Sexpr{round(re$upper[which.min((re$time-3)<0)-1],2)})
+& \Sexpr{round(re$surv[which.min((re$time-5)<0)-1],2)} ( \Sexpr{round(re$lower[which.min((re$time-5)<0)],2)} - \Sexpr{round(re$upper[which.min((re$time-5)<0)-1],2)})
+& \Sexpr{round(re$surv[which.min((re$time-10)<0)-1],2)} ( \Sexpr{round(re$lower[which.min((re$time-10)<0)],2)} - \Sexpr{round(re$upper[which.min((re$time-10)<0)-1],2)}) 
+& \Sexpr{round(re$surv[which.min((re$time-20)<0)-1],2)} ( \Sexpr{round(re$lower[which.min((re$time-20)<0)],2)} - \Sexpr{round(re$upper[which.min((re$time-20)<0)-1],2)}) \\
+S. sans amp.  & \Sexpr{round(reamp$surv[which.min((reamp$time-1)<0)-1],2)} ( \Sexpr{round(reamp$lower[which.min((reamp$time-1)<0)],2)} - \Sexpr{round(reamp$upper[which.min((reamp$time-1)<0)-1],2)})
+& \Sexpr{round(reamp$surv[which.min((reamp$time-3)<0)-1],2)} ( \Sexpr{round(reamp$lower[which.min((reamp$time-3)<0)],2)} - \Sexpr{round(reamp$upper[which.min((reamp$time-3)<0)-1],2)})
+& \Sexpr{round(reamp$surv[which.min((reamp$time-5)<0)-1],2)} ( \Sexpr{round(reamp$lower[which.min((reamp$time-5)<0)],2)} - \Sexpr{round(reamp$upper[which.min((reamp$time-5)<0)-1],2)})
+& \Sexpr{round(reamp$surv[which.min((reamp$time-10)<0)-1],2)} ( \Sexpr{round(reamp$lower[which.min((reamp$time-10)<0)],2)} - \Sexpr{round(reamp$upper[which.min((reamp$time-10)<0)-1],2)}) 
+& \Sexpr{round(reamp$surv[which.min((reamp$time-20)<0)-1],2)} ( \Sexpr{round(reamp$lower[which.min((reamp$time-20)<0)],2)} - \Sexpr{round(reamp$upper[which.min((reamp$time-20)<0)-1],2)}) \\
+S.sans amp. majeure  & \Sexpr{round(reampm$surv[which.min((reampm$time-1)<0)-1],2)} ( \Sexpr{round(reampm$lower[which.min((reampm$time-1)<0)],2)} - \Sexpr{round(reampm$upper[which.min((reampm$time-1)<0)-1],2)})
+& \Sexpr{round(reampm$surv[which.min((reampm$time-3)<0)-1],2)} ( \Sexpr{round(reampm$lower[which.min((reampm$time-3)<0)],2)} - \Sexpr{round(reampm$upper[which.min((reampm$time-3)<0)-1],2)})
+& \Sexpr{round(reampm$surv[which.min((reampm$time-5)<0)-1],2)} ( \Sexpr{round(reampm$lower[which.min((reampm$time-5)<0)],2)} - \Sexpr{round(reampm$upper[which.min((reampm$time-5)<0)-1],2)})
+& \Sexpr{round(reampm$surv[which.min((reampm$time-10)<0)-1],2)} ( \Sexpr{round(reampm$lower[which.min((reampm$time-10)<0)],2)} - \Sexpr{round(reampm$upper[which.min((reampm$time-10)<0)-1],2)}) 
+& \Sexpr{round(reampm$surv[which.min((reampm$time-20)<0)-1],2)} ( \Sexpr{round(reampm$lower[which.min((reampm$time-20)<0)],2)} - \Sexpr{round(reampm$upper[which.min((reampm$time-20)<0)-1],2)}) \\
+S.sans evt & \Sexpr{round(revesu$surv[which.min((revesu$time-1)<0)-1],2)} ( \Sexpr{round(revesu$lower[which.min((revesu$time-1)<0)],2)} - \Sexpr{round(revesu$upper[which.min((revesu$time-1)<0)-1],2)})
+& \Sexpr{round(revesu$surv[which.min((revesu$time-3)<0)-1],2)} ( \Sexpr{round(revesu$lower[which.min((revesu$time-3)<0)],2)} - \Sexpr{round(revesu$upper[which.min((revesu$time-3)<0)-1],2)})
+& \Sexpr{round(revesu$surv[which.min((revesu$time-5)<0)-1],2)} ( \Sexpr{round(revesu$lower[which.min((revesu$time-5)<0)],2)} - \Sexpr{round(revesu$upper[which.min((revesu$time-5)<0)-1],2)})
+& \Sexpr{round(revesu$surv[which.min((revesu$time-10)<0)-1],2)} ( \Sexpr{round(revesu$lower[which.min((revesu$time-10)<0)],2)} - \Sexpr{round(revesu$upper[which.min((revesu$time-10)<0)-1],2)}) 
+& \Sexpr{round(revesu$surv[which.min((revesu$time-20)<0)-1],2)} ( \Sexpr{round(revesu$lower[which.min((revesu$time-20)<0)],2)} - \Sexpr{round(revesu$upper[which.min((revesu$time-20)<0)-1],2)}) \\
+
+
+
+
+
+
+\hline
+\caption{Survie à 1,3,5,10 et 20 ans} 
+\label{tab:uoo}
+\end{longtable}
+\end{landscape}
+
+\restoregeometry
+
+
+
+
+
+
+
+\subsubsection{Survie globale}
+ 
+\begin{center} 
+<<label=xcube, fig=TRUE, echo=FALSE, include=FALSE>>=
+km_os
+@
+ 
+\includegraphics[width=0.8\textwidth]{C:/Users/adupont/Documents/berger/rapport_buerger-xcube.pdf}
+\captionof{figure}{Survie}
+\end{center}
+
+
+%\begin{landscape}
+%\subsection{Univariate Analysis}
+
+
+<<label=tab:uos ,echo=FALSE,results=tex,eval=FALSE>>=
+print(xtable (OS,
+caption= "univariate analysis of OS ",
+label="tab:uos",
+table.placement="htp",caption.placement="top"),
+tabular.environment="longtable",
+floating=F,
+include.rownames=F,
+ sanitize.text.function = function(x){x}  )
+@
+
+
+%\end{landscape}
+
+\subsubsection{Survie sans amputation}
+
+
+\begin{center} 
+<<label=xcube2, fig=TRUE, echo=FALSE, include=FALSE>>=
+plot(gta)
+@
+ 
+\includegraphics[width=0.8\textwidth]{C:/Users/adupont/Documents/berger/rapport_buerger-xcube2.pdf}
+\captionof{figure}{Survie sans amputation}
+\end{center}
+
+
+
+%\begin{landscape}
+%\subsection{Univariate Analysis}
+\pagebreak
+
+<<label=tab:uors ,echo=FALSE,results=tex,eval=TRUE>>=
+print(xtable (amputa[-c(14,17,18),1:ncol(amputa)-1],
+caption= "Analyse univariée survie sans amputation",
+label="tab:uos",
+table.placement="htp",caption.placement="top"),
+tabular.environment="longtable",
+floating=F,
+include.rownames=F,
+ sanitize.text.function = function(x){x}  )
+@
+
+
+%\end{landscape}
+\pagebreak
+\subsubsection{Survie sans amputation majeure}
+
+\begin{center} 
+<<label=kmamputm, fig=TRUE, echo=FALSE, include=FALSE>>=
+km_ampm
+@
+ 
+\includegraphics[width=0.8\textwidth]{C:/Users/adupont/Documents/berger/rapport_buerger-kmamputm.pdf}
+\captionof{figure}{Survie sans amputation majeure}
+\end{center}
+
+\pagebreak
+\subsubsection{Survie sans évenements}
+
+\begin{center} 
+<<label=kmev, fig=TRUE, echo=FALSE, include=FALSE>>=
+km_ev
+@
+ 
+\includegraphics[width=0.8\textwidth]{C:/Users/adupont/Documents/berger/rapport_buerger-kmev.pdf}
+\captionof{figure}{Survie sans évenements}
+\end{center}
+
+
+
+
+
+\end{document}
